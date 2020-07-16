@@ -2,11 +2,20 @@
 
 namespace VkPostStatisticBot
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
-            Console.WriteLine("Hello World!");
+            while (true)
+            {
+                var userId = Console.ReadLine();
+                if (string.IsNullOrEmpty(userId))
+                    break;
+
+                Console.WriteLine("Processing...");
+                //postsProcessor.ProcessPosts(userId);
+                Console.WriteLine("Done!");
+            }
         }
     }
 }
