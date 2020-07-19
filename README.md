@@ -1,4 +1,13 @@
 # VkPostStatisticBot
+
+## Перед Запуском
+Установите переменные окружения:
+ - `VK_STATISTIC_APP_ID` - ID приложения VK
+ - `VK_STATISTIC_USER_LOGIN` - логин пользователя VK
+ - `VK_STATISTIC_USER_PASSWORD` - пароль пользователя VK
+ - `VK_STATISTIC_GROUP_ID` - ID группы VK, в которую будет поститься статистика
+
+## ТЗ
 Бот для [VK](vk.com)
 
 Оформление:
