@@ -15,10 +15,10 @@ namespace VkPostStatisticBot
 
             try
             {
-                var appIdStr = GetEnviromentVariable("VK_STATISTIC_APP_ID");
-                var login = GetEnviromentVariable("VK_STATISTIC_USER_LOGIN");
-                var password = GetEnviromentVariable("VK_STATISTIC_USER_PASSWORD");
-                var groupIdStr = GetEnviromentVariable("VK_STATISTIC_GROUP_ID");
+                var appIdStr = GetEnvironmentVariable("VK_STATISTIC_APP_ID");
+                var login = GetEnvironmentVariable("VK_STATISTIC_USER_LOGIN");
+                var password = GetEnvironmentVariable("VK_STATISTIC_USER_PASSWORD");
+                var groupIdStr = GetEnvironmentVariable("VK_STATISTIC_GROUP_ID");
 
                 api = GetVkApi(appIdStr, login, password);
                 postCreator = GetVkPostCreator(groupIdStr, api);
@@ -51,7 +51,7 @@ namespace VkPostStatisticBot
         private static VkPostCreator GetVkPostCreator(string groupId, VkApi api)
         {
             if (!long.TryParse(groupId, out var id))
-                throw new ArgumentException("Group ID should be long number");
+                throw new ArgumentException("Group ID должен быть long числом");
 
             return new VkPostCreator(api, id);
         }
@@ -61,7 +61,7 @@ namespace VkPostStatisticBot
             var api = new VkApi();
 
             if (!ulong.TryParse(appIdStr, out var appId))
-                throw new ArgumentException("App ID should be ulong number");
+                throw new ArgumentException("App ID должен быть ulong числом");
 
             api.Authorize(new ApiAuthParams
             {
@@ -69,18 +69,24 @@ namespace VkPostStatisticBot
                 Login = login,
                 Password = password,
                 Settings = Settings.Wall,
-                TwoFactorAuthorization = Console.ReadLine
+                TwoFactorAuthorization = GetTwoFactorAuthorizationCode
             });
 
             return api;
         }
 
-        private static string GetEnviromentVariable(string name)
+        private static string GetEnvironmentVariable(string name)
         {
             var variable = Environment.GetEnvironmentVariable(name);
             if (variable == null)
-                throw new ArgumentException($"Variable \"{name}\" isn't set");
+                throw new ArgumentException($"Переменная \"{name}\" не установлена");
             return variable;
+        }
+
+        private static string GetTwoFactorAuthorizationCode()
+        {
+            Console.Write("Введите код авторизации: ");
+            return Console.ReadLine();
         }
     }
 }
