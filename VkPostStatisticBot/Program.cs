@@ -15,13 +15,8 @@ namespace VkPostStatisticBot
 
             try
             {
-                var appIdStr = GetEnvironmentVariable("VK_STATISTIC_APP_ID");
-                var login = GetEnvironmentVariable("VK_STATISTIC_USER_LOGIN");
-                var password = GetEnvironmentVariable("VK_STATISTIC_USER_PASSWORD");
-                var groupIdStr = GetEnvironmentVariable("VK_STATISTIC_GROUP_ID");
-
-                api = GetVkApi(appIdStr, login, password);
-                postCreator = GetVkPostCreator(groupIdStr, api);
+                api = GetVkApi();
+                postCreator = GetVkPostCreator(api);
             }
             catch (ArgumentException e)
             {
@@ -34,35 +29,61 @@ namespace VkPostStatisticBot
                 return;
             }
 
-            postCreator.CreatePost("Test");
-
-            // while (true)
-            // {
-            //     var userId = Console.ReadLine();
-            //     if (string.IsNullOrEmpty(userId))
-            //         break;
-            //
-            //     Console.WriteLine("Processing...");
-            //     //postsProcessor.ProcessPosts(userId);
-            //     Console.WriteLine("Done!");
-            // }
+            var postsProcessor = GetVkPostsProcessor(api, postCreator);
+            RunUserProcessingLoop(postsProcessor);
         }
 
-        private static VkPostCreator GetVkPostCreator(string groupId, VkApi api)
+        private static void RunUserProcessingLoop(PostsProcessor postsProcessor)
         {
-            if (!long.TryParse(groupId, out var id))
+            Console.WriteLine("Вводите ID пользователей или групп по одному в строке");
+            Console.WriteLine("Чтобы выйти, введите пустую строку");
+            while (true)
+            {
+                var userId = Console.ReadLine();
+                if (string.IsNullOrEmpty(userId))
+                    break;
+
+                try
+                {
+                    postsProcessor.ProcessPosts(userId);
+                    Console.WriteLine($"Пост со статистикой {userId} создан!");
+                }
+                catch (Exception e) when (e is VkApiException || e is ArgumentException)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+        }
+
+        private static PostsProcessor GetVkPostsProcessor(VkApi api, VkPostCreator postCreator)
+        {
+            var postsReader = new VkPostsReader(api);
+            var statisticCounter = new PostsSymbolFrequencyCounter();
+            var textBuilder = new VkPostTextBuilder(api);
+
+            return new PostsProcessor(postsReader, statisticCounter, textBuilder, postCreator);
+        }
+
+        private static VkPostCreator GetVkPostCreator(VkApi api)
+        {
+            var groupIdStr = GetEnvironmentVariable("VK_STATISTIC_GROUP_ID");
+
+            if (!long.TryParse(groupIdStr, out var groupId))
                 throw new ArgumentException("Group ID должен быть long числом");
 
-            return new VkPostCreator(api, id);
+            return new VkPostCreator(api, groupId);
         }
 
-        private static VkApi GetVkApi(string appIdStr, string login, string password)
+        private static VkApi GetVkApi()
         {
-            var api = new VkApi();
+            var appIdStr = GetEnvironmentVariable("VK_STATISTIC_APP_ID");
+            var login = GetEnvironmentVariable("VK_STATISTIC_USER_LOGIN_1");
+            var password = GetEnvironmentVariable("VK_STATISTIC_USER_PASSWORD_1");
 
             if (!ulong.TryParse(appIdStr, out var appId))
                 throw new ArgumentException("App ID должен быть ulong числом");
 
+            var api = new VkApi();
             api.Authorize(new ApiAuthParams
             {
                 ApplicationId = appId,
