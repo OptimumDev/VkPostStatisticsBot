@@ -10,6 +10,8 @@ namespace VkPostStatisticBot
     {
         private readonly VkApi api;
 
+        public const int PostsCount = 5;
+
         public VkPostsReader(VkApi api)
         {
             this.api = api;
@@ -21,7 +23,7 @@ namespace VkPostStatisticBot
             {
                 Domain = userId,
                 Filter = WallFilter.Owner,
-                Count = 5
+                Count = PostsCount
             });
 
             return posts.WallPosts.Select(p => p.Text);
