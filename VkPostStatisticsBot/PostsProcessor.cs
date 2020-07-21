@@ -16,12 +16,13 @@ namespace VkPostStatisticsBot
             this.postCreator = postCreator;
         }
 
-        public void ProcessPosts(string userId)
+        public string ProcessPosts(string userId)
         {
             var posts = reader.ReadPosts(userId);
             var statistics = statisticsCounter.CountStatistics(posts);
             var text = textBuilder.BuildPostText(userId, statistics);
             postCreator.CreatePost(text);
+            return text;
         }
     }
 }

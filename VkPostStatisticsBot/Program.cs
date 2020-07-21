@@ -48,8 +48,8 @@ namespace VkPostStatisticsBot
 
                 try
                 {
-                    postsProcessor.ProcessPosts(userId);
-                    Console.WriteLine($"Пост со статистикой {userId} создан!");
+                    var statistics = postsProcessor.ProcessPosts(userId);
+                    Console.WriteLine(statistics);
                 }
                 catch (Exception e) when (e is VkApiException || e is ArgumentException)
                 {
