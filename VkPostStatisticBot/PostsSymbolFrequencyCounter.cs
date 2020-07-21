@@ -8,6 +8,13 @@ namespace VkPostStatisticBot
     {
         private const int DigitsCount = 4;
 
+        private readonly HashSet<char> symbolsToCount;
+
+        public PostsSymbolFrequencyCounter(IEnumerable<char> symbolsToCount)
+        {
+            this.symbolsToCount = new HashSet<char>(symbolsToCount);
+        }
+
         public Dictionary<string, double> CountStatistics(IEnumerable<string> posts)
         {
             var symbolCounts = new Dictionary<string, double>();
@@ -15,9 +22,12 @@ namespace VkPostStatisticBot
 
             foreach (var post in posts)
             {
-                foreach (var symbol in post)
+                foreach (var symbol in post.ToLower())
                 {
-                    var symbolKey = symbol.ToString().ToLower();
+                    if (!symbolsToCount.Contains(symbol))
+                        continue;
+
+                    var symbolKey = symbol.ToString();
                     if (!symbolCounts.ContainsKey(symbolKey))
                         symbolCounts[symbolKey] = 0;
                     symbolCounts[symbolKey]++;

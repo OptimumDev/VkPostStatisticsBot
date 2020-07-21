@@ -8,6 +8,9 @@ namespace VkPostStatisticBot
 {
     internal static class Program
     {
+        private const string RussianLetters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+        private const string EnglishLetters = "abcdefghijklmnopqrstuvwxyz";
+
         private static void Main()
         {
             VkApi api;
@@ -58,7 +61,8 @@ namespace VkPostStatisticBot
         private static PostsProcessor GetVkPostsProcessor(VkApi api, VkPostCreator postCreator)
         {
             var postsReader = new VkPostsReader(api);
-            var statisticCounter = new PostsSymbolFrequencyCounter();
+            const string symbolsToCount = RussianLetters + EnglishLetters;
+            var statisticCounter = new PostsSymbolFrequencyCounter(symbolsToCount);
             var textBuilder = new VkPostTextBuilder(api);
 
             return new PostsProcessor(postsReader, statisticCounter, textBuilder, postCreator);
@@ -77,8 +81,8 @@ namespace VkPostStatisticBot
         private static VkApi GetVkApi()
         {
             var appIdStr = GetEnvironmentVariable("VK_STATISTIC_APP_ID");
-            var login = GetEnvironmentVariable("VK_STATISTIC_USER_LOGIN_1");
-            var password = GetEnvironmentVariable("VK_STATISTIC_USER_PASSWORD_1");
+            var login = GetEnvironmentVariable("VK_STATISTIC_USER_LOGIN");
+            var password = GetEnvironmentVariable("VK_STATISTIC_USER_PASSWORD");
 
             if (!ulong.TryParse(appIdStr, out var appId))
                 throw new ArgumentException("App ID должен быть ulong числом");
