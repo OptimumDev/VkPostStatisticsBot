@@ -1,4 +1,4 @@
-namespace VkPostStatisticBot
+namespace VkPostStatisticsBot
 {
     public interface IPostCreator
     {

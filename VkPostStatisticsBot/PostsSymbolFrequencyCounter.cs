@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace VkPostStatisticBot
+namespace VkPostStatisticsBot
 {
     public class PostsSymbolFrequencyCounter : IPostsStatisticsCounter
     {

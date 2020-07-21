@@ -4,7 +4,7 @@ using VkNet.Enums.Filters;
 using VkNet.Exception;
 using VkNet.Model;
 
-namespace VkPostStatisticBot
+namespace VkPostStatisticsBot
 {
     internal static class Program
     {
@@ -70,7 +70,7 @@ namespace VkPostStatisticBot
 
         private static VkPostCreator GetVkPostCreator(VkApi api)
         {
-            var wallIdStr = GetEnvironmentVariable("VK_STATISTIC_WALL_ID");
+            var wallIdStr = GetEnvironmentVariable("VK_STATISTICS_WALL_ID");
 
             if (!long.TryParse(wallIdStr, out var wallId))
                 throw new ArgumentException("Wall ID должен быть long числом");
@@ -80,9 +80,9 @@ namespace VkPostStatisticBot
 
         private static VkApi GetVkApi()
         {
-            var appIdStr = GetEnvironmentVariable("VK_STATISTIC_APP_ID");
-            var login = GetEnvironmentVariable("VK_STATISTIC_USER_LOGIN");
-            var password = GetEnvironmentVariable("VK_STATISTIC_USER_PASSWORD");
+            var appIdStr = GetEnvironmentVariable("VK_STATISTICS_APP_ID");
+            var login = GetEnvironmentVariable("VK_STATISTICS_USER_LOGIN");
+            var password = GetEnvironmentVariable("VK_STATISTICS_USER_PASSWORD");
 
             if (!ulong.TryParse(appIdStr, out var appId))
                 throw new ArgumentException("App ID должен быть ulong числом");

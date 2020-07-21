@@ -1,7 +1,7 @@
 using VkNet;
 using VkNet.Model.RequestParams;
 
-namespace VkPostStatisticBot
+namespace VkPostStatisticsBot
 {
     public class VkPostCreator : IPostCreator
     {

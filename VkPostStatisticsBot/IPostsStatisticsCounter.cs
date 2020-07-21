@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace VkPostStatisticBot
+namespace VkPostStatisticsBot
 {
     public interface IPostsStatisticsCounter
     {

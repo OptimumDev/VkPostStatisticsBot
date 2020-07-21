@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using VkNet;
 using VkNet.Enums;
 
-namespace VkPostStatisticBot
+namespace VkPostStatisticsBot
 {
     public class VkPostTextBuilder : IPostTextBuilder
     {

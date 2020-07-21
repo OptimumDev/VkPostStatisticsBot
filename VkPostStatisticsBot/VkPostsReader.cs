@@ -4,7 +4,7 @@ using VkNet;
 using VkNet.Enums.SafetyEnums;
 using VkNet.Model.RequestParams;
 
-namespace VkPostStatisticBot
+namespace VkPostStatisticsBot
 {
     public class VkPostsReader : IPostsReader
     {

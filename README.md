@@ -2,10 +2,10 @@
 
 ## Перед Запуском
 Установите переменные окружения:
- - `VK_STATISTIC_APP_ID` - ID приложения VK - `ulong` число
- - `VK_STATISTIC_USER_LOGIN` - логин пользователя VK
- - `VK_STATISTIC_USER_PASSWORD` - пароль пользователя VK
- - `VK_STATISTIC_WALL_ID` - ID страницы VK, в которую будет поститься статистика - `long` число. __Важно:__ 
+ - `VK_STATISTICS_APP_ID` - ID приложения VK - `ulong` число
+ - `VK_STATISTICS_USER_LOGIN` - логин пользователя VK
+ - `VK_STATISTICS_USER_PASSWORD` - пароль пользователя VK
+ - `VK_STATISTICS_WALL_ID` - ID страницы VK, в которую будет поститься статистика - `long` число. __Важно:__ 
     - Это именно ID а не ссылка. Например для пользователя `vk.com/id123` ID будет являться число `123`
     - ID группы должно начинаться со знака минус. Например для группы `vk.com/club123` ID будет являться число `-123`
 
