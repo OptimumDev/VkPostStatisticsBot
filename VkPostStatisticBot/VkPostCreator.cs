@@ -6,19 +6,19 @@ namespace VkPostStatisticBot
     public class VkPostCreator : IPostCreator
     {
         private readonly VkApi api;
-        private readonly long groupId;
+        private readonly long wallId;
 
-        public VkPostCreator(VkApi api, long groupId)
+        public VkPostCreator(VkApi api, long wallId)
         {
             this.api = api;
-            this.groupId = groupId;
+            this.wallId = wallId;
         }
 
         public void CreatePost(string postText)
         {
             api.Wall.Post(new WallPostParams
             {
-                OwnerId = -groupId,
+                OwnerId = wallId,
                 FromGroup = true,
                 Message = postText
             });

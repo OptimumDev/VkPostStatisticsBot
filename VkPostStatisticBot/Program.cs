@@ -70,12 +70,12 @@ namespace VkPostStatisticBot
 
         private static VkPostCreator GetVkPostCreator(VkApi api)
         {
-            var groupIdStr = GetEnvironmentVariable("VK_STATISTIC_GROUP_ID");
+            var wallIdStr = GetEnvironmentVariable("VK_STATISTIC_WALL_ID");
 
-            if (!long.TryParse(groupIdStr, out var groupId))
-                throw new ArgumentException("Group ID должен быть long числом");
+            if (!long.TryParse(wallIdStr, out var wallId))
+                throw new ArgumentException("Wall ID должен быть long числом");
 
-            return new VkPostCreator(api, groupId);
+            return new VkPostCreator(api, wallId);
         }
 
         private static VkApi GetVkApi()
